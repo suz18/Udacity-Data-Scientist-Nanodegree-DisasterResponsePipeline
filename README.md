@@ -3,7 +3,6 @@
 ### Summary of the Project  
 Disaster Response Pipeline Project analyzes disaster data from Figure Eight to build a model for an API that classifies disaster messages. Machine learning pipeline was created to categorize events so that people can send the messages to an appropriate disaster relief agency. A web app where an emergency worker can input a new message and get classification results in several categories in included in the project. The web app will also display visualizations of the data. 
 
-a summary of the project, how to run the Python scripts and web app, and an explanation of the files in the repository
 
 ### Instructions on How to Run Python Scripts and Web App:  
 1. Run the following commands in the project's root directory to set up your database and model.
