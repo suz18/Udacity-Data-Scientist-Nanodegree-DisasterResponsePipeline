@@ -4,6 +4,14 @@ from sqlalchemy import create_engine
 
 
 def load_data(messages_filepath, categories_filepath):
+    """
+    load_data function is to load the messages and categories datasets
+    and merge the two datasets.
+    
+    input: paths for the messages and categories datasets
+    
+    output: merged dataframe
+    """
     # load messages dataset
     messages = pd.read_csv(messages_filepath)
     # load categories dataset
@@ -13,6 +21,15 @@ def load_data(messages_filepath, categories_filepath):
     return df
 
 def clean_data(df):
+    """
+    clean_data function is to clean the merged dataset. 
+    The function expands category column to 36 individual category columns, renames the columns, 
+    encodes column values with 0 and 1, and drops duplicates. 
+    
+    input: merged dataframe
+    
+    output: cleaned dataframe
+    """
     # create a dataframe of the 36 individual category columns
     categories = df.categories.str.split(';', expand=True)
     # select the first row of the categories dataframe
@@ -25,6 +42,8 @@ def clean_data(df):
     for column in categories:
         # set each value to be the last character of the string
         categories[column] = categories[column].str[-1]
+        # if value > 1 then assign 1
+        categories[column][categories[column] > 1] = 1
         # convert column from string to numeric
         categories[column] = categories[column].astype(int)
     
@@ -37,11 +56,21 @@ def clean_data(df):
     return df
 
 def save_data(df, database_filepath='data/DisasterResponse.db'):
+    """
+    save_data function is to save cleaned data into a SQLite database.
+    
+    input: cleaned dataframe, database path
+    
+    output: none
+    """
     engine = create_engine('sqlite:///./' + database_filepath )
     df.to_sql('messages_clean', engine, index=False) 
 
 
 def main():
+    """
+    main function runs all the above functions and produce outputs. 
+    """
     if len(sys.argv) == 4:
 
         messages_filepath, categories_filepath, database_filepath = sys.argv[1:]
